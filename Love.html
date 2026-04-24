@@ -23,22 +23,21 @@ body {
     width: 100%;
     display: flex;
     justify-content: flex-start;
-    padding: 10px;
+    padding: 15px 20px; /* improved spacing */
 }
 
 .credit-box {
     background: #ffffff;
-    padding: 12px 22px;   /* bigger box */
+    padding: 12px 22px;
     border-radius: 14px;
     box-shadow: 0 4px 12px rgba(0,0,0,0.12);
     cursor: pointer;
     color: #ff4d6d;
-    font-size: 18px;      /* bigger text */
+    font-size: 18px;
     font-weight: 500;
     transition: 0.3s;
 }
 
-/* hover effect */
 .credit-box:hover {
     transform: scale(1.08);
     box-shadow: 0 6px 18px rgba(0,0,0,0.18);
@@ -187,16 +186,18 @@ function goBack() {
     document.getElementById("mainPage").style.display = "flex";
 }
 
-// Move NO button
+// Improved Move NO button (navbar safe area)
 function moveNoButton() {
     const btnWidth = noBtn.offsetWidth;
     const btnHeight = noBtn.offsetHeight;
 
     const maxX = window.innerWidth - btnWidth - 20;
+
+    const minY = 70; // avoid navbar
     const maxY = window.innerHeight - btnHeight - 20;
 
     const x = Math.random() * maxX;
-    const y = Math.random() * maxY;
+    const y = Math.random() * (maxY - minY) + minY;
 
     noBtn.style.position = "fixed";
     noBtn.style.left = x + "px";
@@ -219,7 +220,7 @@ yesBtn.addEventListener("click", () => {
         font-family:'Dancing Script',cursive;
         color:#ff4d6d;
     ">
-        <h1>I knew it, I like you too 🥹</h1>
+        <h1>I knew it, I like you too 🥹💗</h1>
     </div>
     `;
 
