@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Do You Like Me?</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+body {
+    margin: 0;
+    background: #fdf6f0;
+    font-family: 'Dancing Script', cursive;
+}
+
+/* NAVBAR */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.credit-box {
+    background: #ffffff;
+    padding: 12px 22px;   /* bigger box */
+    border-radius: 14px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12);
+    cursor: pointer;
+    color: #ff4d6d;
+    font-size: 18px;      /* bigger text */
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+/* hover effect */
+.credit-box:hover {
+    transform: scale(1.08);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+}
+
+/* MAIN PAGE */
+.main {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    text-align: center;
+    padding: 10px;
+}
+
+h1 {
+    font-size: 28px;
+    color: #ff4d6d;
+}
+
+/* Buttons */
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+#yes {
+    background: #ff85a2;
+    color: white;
+}
+
+#no {
+    background: #cce5ff;
+}
+
+/* CREDIT PAGE */
+.credit-page {
+    display: none;
+    height: 100vh;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.icons {
+    margin-top: 20px;
+    font-size: 28px;
+}
+
+.icons a {
+    margin: 10px;
+    color: #ff4d6d;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    margin-top: 20px;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 10px;
+    background: #ff85a2;
+    color: white;
+    cursor: pointer;
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    font-size: 20px;
+    animation: float 3s linear infinite;
+}
+
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-100vh); opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="credit-box" onclick="showCredit()">Credit</div>
+</div>
+
+<!-- MAIN -->
+<div class="main" id="mainPage">
+    <div class="container">
+        <h1>
+            Do you like me? 👀 <br>
+            Be honest.
+        </h1>
+
+        <div class="buttons">
+            <button id="yes">Yess 💗</button>
+            <button id="no">Nope 😔</button>
+        </div>
+    </div>
+</div>
+
+<!-- CREDIT PAGE -->
+<div class="credit-page" id="creditPage">
+    <h1>This website was made by Abhii 💗</h1>
+
+    <div class="icons">
+        <a href="https://instagram.com/ft.abh1i" target="_blank">
+            <i class="fab fa-instagram"></i>
+        </a>
+
+        <a href="https://snapchat.com/add/x.idfc" target="_blank">
+            <i class="fab fa-snapchat"></i>
+        </a>
+    </div>
+
+    <button class="back-btn" onclick="goBack()">Back</button>
+</div>
+
+<script>
+const noBtn = document.getElementById("no");
+const yesBtn = document.getElementById("yes");
+
+// Navigation
+function showCredit() {
+    document.getElementById("mainPage").style.display = "none";
+    document.getElementById("creditPage").style.display = "flex";
+}
+
+function goBack() {
+    document.getElementById("creditPage").style.display = "none";
+    document.getElementById("mainPage").style.display = "flex";
+}
+
+// Move NO button
+function moveNoButton() {
+    const btnWidth = noBtn.offsetWidth;
+    const btnHeight = noBtn.offsetHeight;
+
+    const maxX = window.innerWidth - btnWidth - 20;
+    const maxY = window.innerHeight - btnHeight - 20;
+
+    const x = Math.random() * maxX;
+    const y = Math.random() * maxY;
+
+    noBtn.style.position = "fixed";
+    noBtn.style.left = x + "px";
+    noBtn.style.top = y + "px";
+}
+
+noBtn.addEventListener("mouseover", moveNoButton);
+noBtn.addEventListener("touchstart", moveNoButton);
+
+// YES click
+yesBtn.addEventListener("click", () => {
+
+    document.body.innerHTML = `
+    <div style="
+        height:100vh;
+        display:flex;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        font-family:'Dancing Script',cursive;
+        color:#ff4d6d;
+    ">
+        <h1>I knew it, I like you too 🥹</h1>
+    </div>
+    `;
+
+    setInterval(() => {
+        let heart = document.createElement("div");
+        heart.className = "heart";
+        heart.innerHTML = "💗";
+        heart.style.left = Math.random() * 100 + "vw";
+        heart.style.top = "100vh";
+        document.body.appendChild(heart);
+
+        setTimeout(() => heart.remove(), 3000);
+    }, 200);
+});
+</script>
+
+</body>
+</html>
