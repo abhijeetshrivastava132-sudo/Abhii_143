@@ -136,8 +136,8 @@ body {
     height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    padding: 100px 20px 20px;
+    align-items: flex-start;
+    padding: 180px 20px 20px;
 }
 
 .container {
@@ -300,8 +300,8 @@ button:hover::before {
 
 /* SUCCESS PAGE */
 .success-page {
+    display: none;
     height: 100vh;
-    display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
@@ -309,6 +309,17 @@ button:hover::before {
     color: #ff4d6d;
     flex-direction: column;
     background: linear-gradient(135deg, #fdf6f0 0%, #ffe5ec 100%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    animation: fadeInUp 0.8s ease-out;
+}
+
+.success-content {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 .success-page h1 {
@@ -322,6 +333,30 @@ button:hover::before {
     font-size: 20px;
     animation: fadeInUp 1s ease-out;
     color: #666;
+    margin-bottom: 50px;
+}
+
+.success-back-btn {
+    margin-top: 20px;
+    padding: 12px 32px;
+    border: none;
+    border-radius: 50px;
+    background: linear-gradient(135deg, #ff85a2, #ff4d6d);
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    box-shadow: 0 4px 15px rgba(255, 77, 109, 0.3);
+    transition: all 0.3s ease;
+}
+
+.success-back-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(255, 77, 109, 0.5);
+}
+
+.success-back-btn:active {
+    transform: translateY(-1px);
 }
 
 /* HEARTS */
@@ -355,6 +390,10 @@ button:hover::before {
     .credit-box {
         font-size: 12px;
         padding: 10px 20px;
+    }
+
+    .main {
+        padding: 140px 20px 20px;
     }
 
     .container h1 {
@@ -401,6 +440,10 @@ button:hover::before {
         font-size: 18px;
     }
 
+    .main {
+        padding: 120px 15px 20px;
+    }
+
     .container h1 {
         font-size: 28px;
     }
@@ -424,6 +467,10 @@ button:hover::before {
 
     .success-page h1 {
         font-size: 32px;
+    }
+
+    .success-page p {
+        font-size: 14px;
     }
 }
 </style>
@@ -465,6 +512,15 @@ button:hover::before {
     </div>
 
     <button class="back-btn" onclick="goBack()">← Back</button>
+</div>
+
+<!-- SUCCESS PAGE -->
+<div class="success-page" id="successPage">
+    <div class="success-content">
+        <h1>I knew it! 🥹</h1>
+        <p>I like you too! 💗✨</p>
+        <button class="success-back-btn" onclick="goToHome()">← Home</button>
+    </div>
 </div>
 
 <script>
@@ -513,6 +569,14 @@ function goBack() {
     document.getElementById("mainPage").style.display = "flex";
 }
 
+function goToHome() {
+    document.getElementById("successPage").style.display = "none";
+    document.getElementById("mainPage").style.display = "flex";
+    
+    // Clear hearts and confetti from DOM
+    document.querySelectorAll('.heart, .confetti').forEach(el => el.remove());
+}
+
 // Move NO button
 function moveNoButton() {
     const btnWidth = noBtn.offsetWidth;
@@ -559,7 +623,7 @@ function createConfetti() {
 
 // Heart animation
 function createHearts() {
-    setInterval(() => {
+    let heartInterval = setInterval(() => {
         let heart = document.createElement("div");
         heart.className = "heart";
         heart.innerHTML = "💗";
@@ -569,6 +633,9 @@ function createHearts() {
 
         setTimeout(() => heart.remove(), 4000);
     }, 300);
+    
+    // Store interval ID for later clearing
+    document.heartInterval = heartInterval;
 }
 
 // YES click
@@ -577,14 +644,7 @@ yesBtn.addEventListener("click", () => {
     createConfetti();
 
     document.getElementById("mainPage").style.display = "none";
-    
-    let successDiv = document.createElement("div");
-    successDiv.className = "success-page";
-    successDiv.innerHTML = `
-        <h1>I knew it! 🥹</h1>
-        <p>I like you too! 💗✨</p>
-    `;
-    document.body.appendChild(successDiv);
+    document.getElementById("successPage").style.display = "flex";
     
     createHearts();
 });
